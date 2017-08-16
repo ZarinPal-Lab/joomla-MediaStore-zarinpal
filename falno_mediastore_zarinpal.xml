@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @copyright	Copyright (c) 2017 Falno Technology Ltd (http://www.Falno.com). All rights reserved.
+ * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+-->
+<extension type="plugin" version="3.0" group="mediastore" method="upgrade">
+	<name>MediaStore ZarinPal Payment! Falno</name>
+	<version>2.0</version>
+	<creationDate>1396/05/19</creationDate>
+	<author>M.Deljou - http://www.Falno.com - 09355384337</author>
+	<authorEmail>info@Falno.com</authorEmail>
+	<authorUrl>http://www.Falno.com</authorUrl>
+	<copyright>Copyright (c) 2013 Falno Iran Ltd. All rights reserved.</copyright>
+	<license>GNU/GPL license: http://www.gnu.org/copyleft/gpl.html</license>
+	<description><![CDATA[	<![CDATA[<table style="font-weight:normal">
+    <tr>
+    <td width="1%"></td>
+    <td align="right">
+    <div style="font-family:yekan;width:60%;float: left;" id="rsticketspro_message">
+	<div align="center"><img width="207px" style="float: none;" height="71px" src="../plugins/mediastore/falno_mediastore_zarinpal/tmp/falno.png" alt="Falno.com" /></div>
+        <p><strong>با تشکر از انتخاب شما!</strong></p>
+            <ul>
+                <li>
+                <p style="text-align: justify;" class="style5">
+            <span id="result_box" class="style4" lang="fa">کاربر گرامی، شما پلاگین پرداخت بانک زرین پال کامپوننت MediaStore را دریافت کرده اید. این پلاگین توسط سایت فــالــنو طراحی و تولید گردیده است. لطفا جهت استفاده صحیح و مشاهده آموزش نصب و اجرا به تنظیمات پلاگین مراجعه نمایید. و قبل از پیکربندی آموزش ویدئویی را مشاهده نمایید.</span></p>
+                </li>
+                <li>
+                <p style="text-align: justify;" class="style5">
+            <span id="result_box" class="style4" lang="fa">در صورتی که نیاز به محصولی دارید که در فهرست محصولات سایت فــالــنو نمی باشد میتوانید با مراجعه به سایت <a style="color: #ef3f3e;" href="http://www.falno.com" target="_blank" class="style1">www.Falno.com</a> درخواست خود را در بخش پشتیبانی ارسال نمایید.</span></p>
+                </li>
+                <li>
+                <p style="text-align: justify;" class="style5">
+            <span id="result_box" class="style4" lang="fa">کلیه محصولات سایت فــالــنو فقط توسط آدرس <a style="color: #ef3f3e;" href="http://www.falno.com" target="_blank" class="style1">www.Falno.com</a> عرضه میگردد. و سایر افراد و سایت هایی که خود را شریک یا همکار فــالــنو معرفی میکنند صرفا قصد تخریب و نفوذ به وب سایت شما را دارند و از هر گونه همکاری با آنها خوداری نمایید</span></p>
+                </li>
+            </ul>
+<ul id="rsfirewall_links">
+                <div class="button2-left">
+                    <div style="background: #ef3f3e; border-radius: 3px; padding: 5px;display: inline-block;">
+                        <a style="color: #fff;" href="http://www.falno.com" target="_blank" class="style1">طراحی و پشتیبانی توسط فــالــنو</a>
+					</div>
+                </div>
+
+        </ul>
+    </div>
+    </td>
+    </tr>
+    
+    </table>]]></description>
+
+	<files>
+		<folder>tmp</folder>
+		<filename plugin="falno_mediastore_zarinpal">falno_mediastore_zarinpal.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">en-GB.plg_mediastore_falno_mediastore_zarinpal.ini</language>
+		<language tag="en-GB">en-GB.plg_mediastore_falno_mediastore_zarinpal.sys.ini</language>
+		<language tag="fa-IR">fa-IR.plg_mediastore_falno_mediastore_zarinpal.ini</language>
+		<language tag="fa-IR">fa-IR.plg_mediastore_falno_mediastore_zarinpal.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="/plugins/mediastore/falno_mediastore_zarinpal">
+				<field
+					name="mode"
+					type="radio"
+					default="1"
+					label="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_LABEL"
+					description="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_DESC"
+					class="btn-group"
+				>
+					<option value="1">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_LIVE</option>
+					<option value="0">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_TEST</option>
+				</field>
+
+				<field
+					name="cur"
+					type="radio"
+					default="1"
+					label="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_CUR_LABEL"
+					description="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_CUR_DESC"
+					class="btn-group"
+				>
+					<option value="0">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_CUR_TMN</option>
+					<option value="1">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_CUR_RLS</option>
+				</field>
+
+				<field
+					name="zarinpal_id"
+					type="text"
+					default=""
+					label="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_ZARINPAL_ID_LABEL"
+					description="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_ZARINPAL_ID_DESC"
+				/>
+
+				<field
+					name="label"
+					type="text"
+					default=""
+					label="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_LABEL_LABEL"
+					description="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_LABEL_DESC"
+					filter="raw"
+				/>
+
+				<field
+					name="description"
+					type="textarea"
+					default=""
+					label="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_DESCRIPTION_LABEL"
+					description="PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_DESCRIPTION_DESC"
+					filter="raw"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
