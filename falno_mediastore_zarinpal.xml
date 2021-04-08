@@ -74,7 +74,7 @@
 					class="btn-group"
 				>
 					<option value="1">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_LIVE</option>
-					<option value="0">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_TEST</option>
+					<!-- <option value="0">PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_FIELD_MODE_TEST</option> -->
 				</field>
 
 				<field

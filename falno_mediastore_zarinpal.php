@@ -23,21 +23,37 @@ class plgMediaStoreFalno_Mediastore_Zarinpal extends JPlugin
 		else
 		{
 			$price = intval(ceil($_GET['price']));
-			$client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
+			////////////////////////////////////////////////////////////////////////////////////////
+            $data = array("merchant_id" => $this->params->get('zarinpal_id'), "authority" => $_GET['Authority'], "amount" => $price);
+            $jsonData = json_encode($data);
+            $ch = curl_init('https://api.zarinpal.com/pg/v4/payment/verify.json');
+            curl_setopt($ch, CURLOPT_USERAGENT, 'ZarinPal Rest Api v4');
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($jsonData)
+            ));
+            $result = curl_exec($ch);
+            curl_close($ch);
+            $result = json_decode($result, true);
+            /// ////////////////////////////////////////////////////////////////////////////////////
+		/*	$client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
 			$parameters = array(
 					'MerchantID' => $this->params->get('zarinpal_id'),
 					'Authority'  => $_GET['Authority'],
 					'Amount'     => $price
 				);
-			$result = $client->PaymentVerification($parameters);
-			if($result->Status == 100)
+			$result = $client->PaymentVerification($parameters);*/
+			if($result['data']['code'] == 100)
 			{
-				$this->response_status = $result->RefID;
+				$this->response_status = $result['data']['ref_id'];
 				return true;
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_ERROR_RESPONSE_STATUS', $result->Status));
+				throw new Exception(JText::sprintf('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_ERROR_RESPONSE_STATUS',$result['errors']['code']));
 			}
 		}
 	}
@@ -74,7 +90,7 @@ class plgMediaStoreFalno_Mediastore_Zarinpal extends JPlugin
 		if ($this->params->get('cur')) $price /= 10;
 		$price = intval(ceil($price));
 		date_default_timezone_set("Asia/Tehran");
-		$client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
+	/*	$client = new SoapClient('https://de.zarinpal.com/pg/services/WebGate/wsdl', array('encoding' => 'UTF-8'));
 		$parameters = array(
 				'MerchantID'  => $this->params->get('zarinpal_id'),
 				'Amount'      => $price,
@@ -83,10 +99,33 @@ class plgMediaStoreFalno_Mediastore_Zarinpal extends JPlugin
 				'Mobile'      => '',
 				'CallbackURL' => $this->getUrl('index.php?option=com_mediastore&task=order.paymentNotify&payment_method=zarinpal&id='.$order->id.'&price='.$price)
 			);
-		$result = $client->PaymentRequest($parameters);
-		if($result->Status == 100)
+		$result = $client->PaymentRequest($parameters);*/
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+        $data = array("merchant_id" => $this->params->get('zarinpal_id'),
+            "amount" =>$price,
+            "callback_url" =>  $this->getUrl('index.php?option=com_mediastore&task=order.paymentNotify&payment_method=zarinpal&id='.$order->id.'&price='.$price),
+            "description" => $order->title,
+            "metadata" => [ "email" => "0","mobile"=>"0"],
+        );
+        $jsonData = json_encode($data);
+        $ch = curl_init('https://api.zarinpal.com/pg/v4/payment/request.json');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'ZarinPal Rest Api v1');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($jsonData)
+        ));
+
+        $result = curl_exec($ch);
+        $err = curl_error($ch);
+        $result = json_decode($result, true, JSON_PRETTY_PRINT);
+        curl_close($ch);
+        /// /////////////////////////////////////////////////////////////////////////////////////////////
+		if($result['data']['code'] == 100)
 		{
-			$url = 'https://www.zarinpal.com/pg/StartPay/'.$result->Authority;
+			$url = 'https://www.zarinpal.com/pg/StartPay/'.$result['data']["authority"];
 			if ($this->params->get('mode')) $url .= '/ZarinGate';
 			echo ('<p>'.JText::_('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_REDIRECT_MSG').'</p>
 					<form id="zarinpal_standard_checkout" name="zarinpal_standard_checkout" action="'.$url.'" method="get">
@@ -95,7 +134,7 @@ class plgMediaStoreFalno_Mediastore_Zarinpal extends JPlugin
 		}
 		else
 		{
-			echo (JText::sprintf('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_ERROR_RESPONSE_STATUS', $result->Status));
+			echo (JText::sprintf('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_ERROR_RESPONSE_STATUS', $result['errors']['code']));
 		}
 	}
 	function onMSPaymentNotify($payment_method, $data, $model)
