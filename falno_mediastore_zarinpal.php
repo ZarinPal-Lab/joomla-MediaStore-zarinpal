@@ -126,11 +126,21 @@ class plgMediaStoreFalno_Mediastore_Zarinpal extends JPlugin
 		if($result['data']['code'] == 100)
 		{
 			$url = 'https://www.zarinpal.com/pg/StartPay/'.$result['data']["authority"];
-			if ($this->params->get('mode')) $url .= '/ZarinGate';
+/*			if ($this->params->get('mode')) $url .= '/ZarinGate';
 			echo ('<p>'.JText::_('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_REDIRECT_MSG').'</p>
 					<form id="zarinpal_standard_checkout" name="zarinpal_standard_checkout" action="'.$url.'" method="get">
 						<input class="btn" name="" value="'.JText::_('PLG_MEDIASTORE_FALNO_MEDIASTORE_ZARINPAL_SUBMIT_LABEL').'" type="submit" />
-						</form><script type="text/javascript">document.getElementById("zarinpal_standard_checkout").submit();</script>');
+						</form><script type="text/javascript">document.getElementById("zarinpal_standard_checkout").submit();</script>');*/
+            echo'<html><body>
+<script type="text/javascript" src="https://cdn.zarinpal.com/zarinak/v1/checkout.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+Zarinak.setAuthority("' . $result['data']['authority'] . '");
+Zarinak.showQR();
+Zarinak.open();
+};
+</script>
+</body></html>';
 		}
 		else
 		{
